@@ -1,8 +1,8 @@
 package main
 
 import (
-	"../../api"
-	"../../web"
+	"../api"
+	"../web"
 )
 
 func main() {

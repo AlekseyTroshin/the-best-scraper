@@ -23,42 +23,42 @@ func Web() {
 
 func ChoiseService(writer http.ResponseWriter, request *http.Request) {
 	name := request.URL.Query().Get("name")
-	html, err := template.ParseFiles("../../web/template/choise.html")
+	html, err := template.ParseFiles("../web/template/choise.html")
 	checkErr(err)
 	err = html.Execute(writer, api.ChoiseRow(name))
 	checkErr(err)
 }
 
 func MaxService(writer http.ResponseWriter, request *http.Request) {
-	html, err := template.ParseFiles("../../web/template/max.html")
+	html, err := template.ParseFiles("../web/template/max.html")
 	checkErr(err)
 	err = html.Execute(writer, api.MaxTimeRow())
 	checkErr(err)
 }
  
 func MinService(writer http.ResponseWriter, request *http.Request) {
-	html, err := template.ParseFiles("../../web/template/min.html")
+	html, err := template.ParseFiles("../web/template/min.html")
 	checkErr(err)
 	err = html.Execute(writer, api.MinTimeRow())
 	checkErr(err)
 }
 
 func RandService(writer http.ResponseWriter, request *http.Request) {
-	html, err := template.ParseFiles("../../web/template/rand.html")
+	html, err := template.ParseFiles("../web/template/rand.html")
 	checkErr(err)
 	err = html.Execute(writer, api.RandomRow())
 	checkErr(err)
 }
 
 func IndexHandler(writer http.ResponseWriter, request *http.Request) {
-	html, err := template.ParseFiles("../../web/template/index.html")
+	html, err := template.ParseFiles("../web/template/index.html")
 	checkErr(err)
 	err = html.Execute(writer, map[string][]api.Services{"Services": api.GetDomains()})
 	checkErr(err)
 }
 
 func AdminCheck(writer http.ResponseWriter, request *http.Request) {
-	html, err := template.ParseFiles("../../web/template/adminCheck.html")
+	html, err := template.ParseFiles("../web/template/adminCheck.html")
 	checkErr(err)
 	err = html.Execute(writer, map[string][]api.Services{"Services": api.GetDomains()})
 	checkErr(err)

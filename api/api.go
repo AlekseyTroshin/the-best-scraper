@@ -3,7 +3,6 @@ package api
 import (
 	"bufio"
 	"encoding/json"
-	"fmt"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"io/ioutil"
@@ -11,6 +10,7 @@ import (
 	"net/http"
 	"os"
 	"time"
+	"fmt"
 )
 
 type Services struct {
@@ -64,14 +64,14 @@ func RandomRow() Result {
 func MinTimeRow() Result {
 	database := callDB()
 	var result Result
-	database.Raw("SELECT * FROM services WHERE request_time = (SELECT MIN(NULLIF(request_time, 0)) FROM services)").Scan(&result)
+	database.Raw("SELECT * FROM services WHERE request_time <> 0 ORDER BY request_time LIMIT 1;").Scan(&result)
 	return addCountUser(database, result)
 }
 
 func MaxTimeRow() Result {
 	database := callDB()
 	var result Result
-	database.Raw("SELECT * FROM services WHERE request_time = (SELECT MAX(request_time)  FROM services)").Scan(&result)
+	database.Raw("SELECT * FROM services ORDER BY request_time DESC LIMIT 1;").Scan(&result)
 	return addCountUser(database, result)
 }
 
@@ -108,7 +108,7 @@ func UpdateServicesDB() {
 
 func UpdateServices() {
 	services := make(chan Services)
-	urls := getStrings("../../api/sites.txt")
+	urls := getStrings("../api/sites.txt")
 	begin := makeTimestamp()
 	for _, url := range urls {
 		go initService(url, services, begin)
@@ -139,7 +139,7 @@ func InitServices() {
 	}
 	CreateTableServices()
 	services := make(chan Services)
-	urls := getStrings("../../api/sites.txt")
+	urls := getStrings("../api/sites.txt")
 	begin := makeTimestamp()
 	for _, url := range urls {
 		go initService(url, services, begin)
